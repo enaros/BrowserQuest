@@ -9,6 +9,28 @@ define(['npc'], function(Npc) {
             }
         }),
 
+       
+        Spongebob: Npc.extend({
+            init: function(id) {
+                this._super(id, Types.Entities.SPONGEBOB, 1);
+                // this.idleSpeed = 100;
+            }
+        }),
+        /* npcs */
+
+        Banana: Npc.extend({
+            init: function(id) {
+                this._super(id, Types.Entities.BANANA, 1);
+                this.idleSpeed = 100;
+            }
+        }),
+
+        Angel: Npc.extend({
+            init: function(id) {
+                this._super(id, Types.Entities.ANGEL, 1);
+            }
+        }),
+
         King: Npc.extend({
             init: function(id) {
                 this._super(id, Types.Entities.KING, 1);

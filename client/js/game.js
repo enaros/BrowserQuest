@@ -10,6 +10,7 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
     var Game = Class.extend({
         init: function(app) {
             this.app = app;
+            this.app.game = this;
             this.app.config = config;
             this.ready = false;
             this.started = false;
@@ -74,12 +75,42 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
             this.pvpFlag = false;
 
             // sprites
-            this.spriteNames = ["hand", "sword", "loot", "target", "talk", "sparks", "shadow16", "rat", "skeleton", "skeleton2", "spectre", "boss", "deathknight",
+            this.spriteNames = [
+                                "hand", "sword", "loot", "target", "talk", "sparks", "shadow16", "rat", "skeleton", "skeleton2", "spectre", "boss", "deathknight",
                                 "ogre", "crab", "snake", "eye", "bat", "goblin", "wizard", "guard", "king", "villagegirl", "villager", "coder", "agent", "rick", "scientist", "nyan", "priest",
                                 "sorcerer", "octocat", "beachnpc", "forestnpc", "desertnpc", "lavanpc", "clotharmor", "leatherarmor", "mailarmor",
                                 "platearmor", "redarmor", "goldenarmor", "firefox", "death", "sword1", "axe", "chest",
                                 "sword2", "redsword", "bluesword", "goldensword", "item-sword2", "item-axe", "item-redsword", "item-bluesword", "item-goldensword", "item-leatherarmor", "item-mailarmor",
-                                "item-platearmor", "item-redarmor", "item-goldenarmor", "item-flask", "item-cake", "item-burger", "morningstar", "item-morningstar", "item-firepotion"];
+                                "item-platearmor", "item-redarmor", "item-goldenarmor", "item-flask", "item-cake", "item-burger", "morningstar", "item-morningstar", "item-firepotion", 
+                                // Extra added!
+                               
+                                "item-test", 
+                                "item-pearlring", 
+                                "spongebob", 
+                                "eliminator", 
+                                "legolasarmor", 
+                                "item-legolasarmor", 
+                                "bastardsword", 
+                                "forestdragon", 
+                                "item-snowpotion",  /* this.SpriteNames */
+
+
+
+
+
+
+
+
+
+                                "healeffect", 
+                                "angel", 
+                                "ironmanarmor", 
+                                "item-ironmanarmor",  
+                                "item-mushroom", 
+                                "item-marblependant", 
+                                "joker", 
+                                "banana" 
+            ];
         },
 
         setup: function($bubbleContainer, canvas, background, foreground, input) {
@@ -131,8 +162,8 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                     this.player.setWeaponName(this.storage.data.player.weapon);
                 }
                 if(this.storage.data.player.guild) {
-					this.player.setGuild(this.storage.data.player.guild);
-				}
+                    this.player.setGuild(this.storage.data.player.guild);
+                }
             }
 
             this.player.setSprite(this.sprites[this.player.getSpriteName()]);
@@ -162,6 +193,9 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
 
             this.sparksAnimation = new Animation("idle_down", 6, 0, 16, 16);
             this.sparksAnimation.setSpeed(120);
+
+            this.healAnimation = new Animation("idle_down", 8, 0, 32, 30);
+            this.healAnimation.setSpeed(120);
         },
 
         initHurtSprites: function() {
@@ -303,6 +337,26 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                     name: "Rickroll'd",
                     desc: "Take some singing lessons",
                     hidden: true
+                },
+                TEST: {
+                    id: 21,
+                    name: "Test Achievment",
+                    desc: "This is a test"
+                },
+                TEST1: {
+                    id: 22,
+                    name: "Test Achievment",
+                    desc: "This is a test"
+                },
+                TEST2: {
+                    id: 23,
+                    name: "Test Achievment",
+                    desc: "This is a test"
+                },
+                TEST3: {
+                    id: 24,
+                    name: "Test Achievment",
+                    desc: "This is a test"
                 }
             };
 
@@ -316,6 +370,8 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
             });
 
             this.app.initAchievementList(this.achievements);
+            this.app.initInventory(this.storage.data.items);
+            this.app.initArmors(this.storage.data.armors);
 
             if(this.storage.hasAlreadyPlayed()) {
                 this.app.initUnlockedAchievements(this.storage.data.achievements.unlocked);
@@ -838,6 +894,8 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                     self.tryUnlockingAchievement("STILL_ALIVE");
                 }, 1500);
 
+                $('#mutebutton').click(); // mute on start
+
                 if(!self.storage.hasAlreadyPlayed()) {
                     self.storage.initPlayer(self.player.name);
                     self.storage.savePlayer(self.renderer.getPlayerImage(),
@@ -1135,6 +1193,8 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                                         if(!entity.isDying) {
                                             self.registerEntityDualPosition(entity);
 
+                                            if (!self.player) return;
+                                            
                                             if(self.player.target === entity) {
                                                 self.makeAttackerFollow(self.player)
                                             }
@@ -1298,92 +1358,92 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                 });
                 
                 self.client.onGuildError(function(errorType, info) {
-					if(errorType === Types.Messages.GUILDERRORTYPE.BADNAME){
-						self.showNotification(info + " seems to be an inappropriate guild name…");
-					}
-					else if(errorType === Types.Messages.GUILDERRORTYPE.ALREADYEXISTS){
-						self.showNotification(info + " already exists…");
-						setTimeout(function(){self.showNotification("Either change the name of YOUR guild")},2500);
-						setTimeout(function(){self.showNotification("Or ask a member of " + info + " if you can join them.")},5000);
-					}
-					else if(errorType === Types.Messages.GUILDERRORTYPE.IDWARNING){
-						self.showNotification("WARNING: the server was rebooted.");
-						setTimeout(function(){self.showNotification(info + " has changed ID.")},2500);
-					}
-					else if(errorType === Types.Messages.GUILDERRORTYPE.BADINVITE){
-						self.showNotification(info+" is ALREADY a member of “"+self.player.getGuild().name+"”");
-					}
-				});
-				
-				self.client.onGuildCreate(function(guildId, guildName) {
-					self.player.setGuild(new Guild(guildId, guildName));
-					self.storage.setPlayerGuild(self.player.getGuild());
-					self.showNotification("You successfully created and joined…");
-					setTimeout(function(){self.showNotification("…" + self.player.getGuild().name)},2500);
-				});
-				
-				self.client.onGuildInvite(function(guildId, guildName, invitorName) {
-					self.showNotification(invitorName + " invited you to join “"+guildName+"”.");
-					self.player.addInvite(guildId);
-					setTimeout(function(){$("#chatinput").attr("placeholder", "Do you want to join "+guildName+" ? Type /guild accept yes or /guild accept no");
-					self.app.showChat();},2500);
-				});
-				
-				self.client.onGuildJoin(function(playerName, id, guildId, guildName) {
-					if(typeof id === "undefined"){
-						self.showNotification(playerName + " failed to answer to your invitation in time.");
-						setTimeout(function(){self.showNotification("Might have to send another invite…")},2500);
-					}
-					else if(id === false){
-						self.showNotification(playerName + " respectfully declined your offer…");
-						setTimeout(function(){self.showNotification("…to join “"+self.player.getGuild().name+"”.")},2500);
-					}
-					else if(id === self.player.id){
-						self.player.setGuild(new Guild(guildId, guildName));
-						self.storage.setPlayerGuild(self.player.getGuild());
-						self.showNotification("You just joined “"+guildName+"”.");
-					}
-					else{
-						self.showNotification(playerName+" is now a jolly member of “"+guildName+"”.");//#updateguild
-					}
-				});
-				
-				self.client.onGuildLeave(function(name, playerId, guildName) {
-					if(self.player.id===playerId){
-						if(self.player.hasGuild()){
-							if(self.player.getGuild().name === guildName){//do not erase new guild on create
-								self.player.unsetGuild();
-								self.storage.setPlayerGuild();
-								self.showNotification("You successfully left “"+guildName+"”.");
-							}
-						}
-						//missing elses above should not happen (errors)
-					}
-					else{
-						self.showNotification(name + " has left “"+guildName+"”.");//#updateguild
-					}
-				});
-				
-				self.client.onGuildTalk(function(name, id, message) {
-					if(id===self.player.id){
-						self.showNotification("YOU: "+message);
-					}
-					else{
-						self.showNotification(name+": "+message);
-					}
-				});
+                    if(errorType === Types.Messages.GUILDERRORTYPE.BADNAME){
+                        self.showNotification(info + " seems to be an inappropriate guild name…");
+                    }
+                    else if(errorType === Types.Messages.GUILDERRORTYPE.ALREADYEXISTS){
+                        self.showNotification(info + " already exists…");
+                        setTimeout(function(){self.showNotification("Either change the name of YOUR guild")},2500);
+                        setTimeout(function(){self.showNotification("Or ask a member of " + info + " if you can join them.")},5000);
+                    }
+                    else if(errorType === Types.Messages.GUILDERRORTYPE.IDWARNING){
+                        self.showNotification("WARNING: the server was rebooted.");
+                        setTimeout(function(){self.showNotification(info + " has changed ID.")},2500);
+                    }
+                    else if(errorType === Types.Messages.GUILDERRORTYPE.BADINVITE){
+                        self.showNotification(info+" is ALREADY a member of “"+self.player.getGuild().name+"”");
+                    }
+                });
+                
+                self.client.onGuildCreate(function(guildId, guildName) {
+                    self.player.setGuild(new Guild(guildId, guildName));
+                    self.storage.setPlayerGuild(self.player.getGuild());
+                    self.showNotification("You successfully created and joined…");
+                    setTimeout(function(){self.showNotification("…" + self.player.getGuild().name)},2500);
+                });
+                
+                self.client.onGuildInvite(function(guildId, guildName, invitorName) {
+                    self.showNotification(invitorName + " invited you to join “"+guildName+"”.");
+                    self.player.addInvite(guildId);
+                    setTimeout(function(){$("#chatinput").attr("placeholder", "Do you want to join "+guildName+" ? Type /guild accept yes or /guild accept no");
+                    self.app.showChat();},2500);
+                });
+                
+                self.client.onGuildJoin(function(playerName, id, guildId, guildName) {
+                    if(typeof id === "undefined"){
+                        self.showNotification(playerName + " failed to answer to your invitation in time.");
+                        setTimeout(function(){self.showNotification("Might have to send another invite…")},2500);
+                    }
+                    else if(id === false){
+                        self.showNotification(playerName + " respectfully declined your offer…");
+                        setTimeout(function(){self.showNotification("…to join “"+self.player.getGuild().name+"”.")},2500);
+                    }
+                    else if(id === self.player.id){
+                        self.player.setGuild(new Guild(guildId, guildName));
+                        self.storage.setPlayerGuild(self.player.getGuild());
+                        self.showNotification("You just joined “"+guildName+"”.");
+                    }
+                    else{
+                        self.showNotification(playerName+" is now a jolly member of “"+guildName+"”.");//#updateguild
+                    }
+                });
+                
+                self.client.onGuildLeave(function(name, playerId, guildName) {
+                    if(self.player.id===playerId){
+                        if(self.player.hasGuild()){
+                            if(self.player.getGuild().name === guildName){//do not erase new guild on create
+                                self.player.unsetGuild();
+                                self.storage.setPlayerGuild();
+                                self.showNotification("You successfully left “"+guildName+"”.");
+                            }
+                        }
+                        //missing elses above should not happen (errors)
+                    }
+                    else{
+                        self.showNotification(name + " has left “"+guildName+"”.");//#updateguild
+                    }
+                });
+                
+                self.client.onGuildTalk(function(name, id, message) {
+                    if(id===self.player.id){
+                        self.showNotification("YOU: "+message);
+                    }
+                    else{
+                        self.showNotification(name+": "+message);
+                    }
+                });
 
-				self.client.onMemberConnect(function(name) {
-					self.showNotification(name + " connected to your world.");//#updateguild
-				});
-				
-				self.client.onMemberDisconnect(function(name) {
-					self.showNotification(name + " lost connection with your world.");
-				});
-				
-				self.client.onReceiveGuildMembers(function(memberNames) {
-					self.showNotification(memberNames.join(", ") + ((memberNames.length===1) ? " is " : " are ") +"currently online.");//#updateguild
-				});
+                self.client.onMemberConnect(function(name) {
+                    self.showNotification(name + " connected to your world.");//#updateguild
+                });
+                
+                self.client.onMemberDisconnect(function(name) {
+                    self.showNotification(name + " lost connection with your world.");
+                });
+                
+                self.client.onReceiveGuildMembers(function(memberNames) {
+                    self.showNotification(memberNames.join(", ") + ((memberNames.length===1) ? " is " : " are ") +"currently online.");//#updateguild
+                });
 
                 self.client.onEntityMove(function(id, x, y) {
                     var entity = null;
@@ -1460,7 +1520,8 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                     self.player.experience = exp;
                     self.updateExpBar();
                     
-                    self.infoManager.addDamageInfo("+"+mobExp+" exp", self.player.x, self.player.y - 15, "exp", 3000);
+                    // Extra added!
+                    // self.infoManager.addDamageInfo("+"+mobExp+" exp", self.player.x, self.player.y - 15, "exp", 3000);
 
                     var expInThisLevel = self.player.experience - Types.expForLevel[self.player.level-1];
                     var expForLevelUp = Types.expForLevel[self.player.level] - Types.expForLevel[self.player.level-1];
@@ -1597,10 +1658,10 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                 });
                 
                 self.client.onGuildPopulation(function(guildName, guildPopulation) {
-					if(self.nbguildplayers_callback) {
-						self.nbguildplayers_callback(guildName, guildPopulation);
-					}
-				});
+                    if(self.nbguildplayers_callback) {
+                        self.nbguildplayers_callback(guildName, guildPopulation);
+                    }
+                });
 
                 self.client.onDisconnected(function(message) {
                     if(self.player) {
@@ -1784,17 +1845,38 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                 msg = npc.talk(this);
                 this.previousClickPosition = {};
                 if(msg) {
-                    this.createBubble(npc.id, msg);
-                    this.assignBubbleTo(npc);
-                    this.audioManager.playSound("npc");
+                    this.bubbleManager.destroyBubble(game.playerId);
+                    if (msg.me) {
+                        this.destroyBubble(npc.id);
+                        this.say(msg.me);
+                    }
+                    else {
+                        this.createBubble(npc.id, msg);
+                        this.assignBubbleTo(npc);
+                        this.audioManager.playSound("npc");
+                    }
                 } else {
                     this.destroyBubble(npc.id);
                     this.audioManager.playSound("npc-end");
                 }
+
                 this.tryUnlockingAchievement("SMALL_TALK");
 
                 if(npc.kind === Types.Entities.RICK) {
                     this.tryUnlockingAchievement("RICKROLLD");
+                }
+
+                // msg == '' means end of conversation
+                if(npc.kind === Types.Entities.ANGEL && msg == '') {
+                    console.log(this);
+                    this.player.switchArmor(this.sprites["ironmanarmor"]);
+                    this.showNotification('You\'ve found the ironman armor!');
+                    this.tryUnlockingAchievement("TEST");
+                }
+
+                // msg == '' means end of conversation
+                if(npc.kind === Types.Entities.DESERTNPC && msg == '') {
+                    this.showNotification('Your convesation has ended!');
                 }
             }
         },
@@ -2143,7 +2225,7 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
             && !this.hoveringPlateauTile) {
                 entity = this.getEntityAt(pos.x, pos.y);
 
-        	    if(entity instanceof Mob || (entity instanceof Player && entity !== this.player && this.player.pvpFlag && this.pvpFlag)) {
+                if(entity instanceof Mob || (entity instanceof Player && entity !== this.player && this.player.pvpFlag && this.pvpFlag)) {
                     this.makePlayerAttack(entity);
                 }
                 else if(entity instanceof Item) {
@@ -2411,64 +2493,64 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
         },
 
         say: function(message) {
-			//#cli guilds
-			var regexp = /^\/guild\ (invite|create|accept)\s+([^\s]*)|(guild:)\s*(.*)$|^\/guild\ (leave)$/i;
-			var args = message.match(regexp);
-			if(args != undefined){
-				switch(args[1]){
-					case "invite":
-						if(this.player.hasGuild()){
-							this.client.sendGuildInvite(args[2]);
-						}
-						else{
-							this.showNotification("Invite "+args[2]+" to where?");
-						}
-						break;
-					case "create":
-						this.client.sendNewGuild(args[2]);
-						break;
-					case undefined:
-						if(args[5]==="leave"){
-							this.client.sendLeaveGuild();
-						}
-						else if(this.player.hasGuild()){
-							this.client.talkToGuild(args[4]);
-						}
-						else{
-							this.showNotification("You got no-one to talk to…");
-						}
-						break;
-					case "accept":
-						var status;
-						if(args[2] === "yes") {
-							status = this.player.checkInvite();
-							if(status === false){
-								this.showNotification("You were not invited anyway…");
-							}
-							else if (status < 0) {
-								this.showNotification("Sorry to say it's too late…");
-								setTimeout(function(){self.showNotification("Find someone and ask for another invite.")},2500);
-							}
-							else{
-								this.client.sendGuildInviteReply(this.player.invite.guildId, true);
-							}
-						}
-						else if(args[2] === "no"){
-							status = this.player.checkInvite();
-							if(status!==false){
-								this.client.sendGuildInviteReply(this.player.invite.guildId, false);
-								this.player.deleteInvite();
-							}
-							else{
-								this.showNotification("Whatever…");
-							}
-						}
-						else{
-							this.showNotification("“guild accept” is a YES or NO question!!");
-						}
-						break;
-				}	
-			}
+            //#cli guilds
+            var regexp = /^\/guild\ (invite|create|accept)\s+([^\s]*)|(guild:)\s*(.*)$|^\/guild\ (leave)$/i;
+            var args = message.match(regexp);
+            if(args != undefined){
+                switch(args[1]){
+                    case "invite":
+                        if(this.player.hasGuild()){
+                            this.client.sendGuildInvite(args[2]);
+                        }
+                        else{
+                            this.showNotification("Invite "+args[2]+" to where?");
+                        }
+                        break;
+                    case "create":
+                        this.client.sendNewGuild(args[2]);
+                        break;
+                    case undefined:
+                        if(args[5]==="leave"){
+                            this.client.sendLeaveGuild();
+                        }
+                        else if(this.player.hasGuild()){
+                            this.client.talkToGuild(args[4]);
+                        }
+                        else{
+                            this.showNotification("You got no-one to talk to…");
+                        }
+                        break;
+                    case "accept":
+                        var status;
+                        if(args[2] === "yes") {
+                            status = this.player.checkInvite();
+                            if(status === false){
+                                this.showNotification("You were not invited anyway…");
+                            }
+                            else if (status < 0) {
+                                this.showNotification("Sorry to say it's too late…");
+                                setTimeout(function(){self.showNotification("Find someone and ask for another invite.")},2500);
+                            }
+                            else{
+                                this.client.sendGuildInviteReply(this.player.invite.guildId, true);
+                            }
+                        }
+                        else if(args[2] === "no"){
+                            status = this.player.checkInvite();
+                            if(status!==false){
+                                this.client.sendGuildInviteReply(this.player.invite.guildId, false);
+                                this.player.deleteInvite();
+                            }
+                            else{
+                                this.showNotification("Whatever…");
+                            }
+                        }
+                        else{
+                            this.showNotification("“guild accept” is a YES or NO question!!");
+                        }
+                        break;
+                }   
+            }
             this.client.sendChat(message);
         },
 
@@ -2576,8 +2658,8 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
         },
         
         onGuildPopulationChange: function(callback) {
-			this.nbguildplayers_callback = callback;
-		},
+            this.nbguildplayers_callback = callback;
+        },
 
         onNotification: function(callback) {
             this.notification_callback = callback;
@@ -2634,6 +2716,18 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
             return position;
         },
 
+        setItemMenu: function(name, q) {
+            this.storage.setItem(name, q);
+            var li = $('#inventory li.' + name);
+            
+            if (q > 0)
+                li.removeClass('off').find('.quantity').text(q);
+            else
+                li.addClass('off').find('.quantity').text('0');
+            
+            this.audioManager.playSound("achievement");
+        },
+
         onAchievementUnlock: function(callback) {
             this.unlock_callback = callback;
         },
@@ -2645,6 +2739,7 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
 
                 if(achievement.isCompleted() && this.storage.unlockAchievement(achievement.id)) {
                     if(this.unlock_callback) {
+                        // debugger;
                         this.unlock_callback(achievement.id, achievement.name, achievement.desc);
                         this.audioManager.playSound("achievement");
                     }
@@ -2780,9 +2875,9 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
             }
         },
 
-	    tryLootingItem: function(item) {
+        tryLootingItem: function(item) {
             try {
-                this.player.loot(item);
+                this.player.loot(item, this);
                 this.client.sendLoot(item); // Notify the server that this item has been looted
                 this.removeItem(item);
                 this.showNotification(item.getLootMessage());
@@ -2821,6 +2916,45 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                     throw e;
                 }
             }
+        },
+
+        teleport: function(dest) {
+            this.player.setGridPosition(dest.x, dest.y);
+            this.player.nextGridX = dest.x;
+            this.player.nextGridY = dest.y;
+            this.player.turnTo(dest.orientation);
+            this.client.sendTeleport(dest.x, dest.y);
+
+            if(this.renderer.mobile && dest.cameraX && dest.cameraY) {
+                this.camera.setGridPosition(dest.cameraX, dest.cameraY);
+                this.resetZone();
+            } else {
+                if(dest.portal) {
+                    this.assignBubbleTo(this.player);
+                } else {
+                    this.camera.focusEntity(this.player);
+                    this.resetZone();
+                }
+            }
+
+            this.player.forEachAttacker(function(attacker) {
+                attacker.disengage();
+                attacker.idle();
+            });
+
+            this.updatePlateauMode();
+
+            if(this.renderer.mobile || this.renderer.tablet) {
+                // When rendering with dirty rects, clear the whole screen when entering a door.
+                this.renderer.clearScreen(this.renderer.context);
+            }
+
+            if(!this.player.isDead) {
+                this.audioManager.updateMusic();
+            }
+
+            this.unregisterEntityPosition(this.player);
+            this.registerEntityPosition(this.player);
         }
     });
 

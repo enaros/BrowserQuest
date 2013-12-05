@@ -10,3 +10,11 @@ config_local*
 browserquest.conf
 *.sublime-project
 *.sublime-workspace
+client/js/entityfactory_test.js
+client/js/game_test.js
+client/js/items_test.js
+client/js/sprites_test.js
+client/sprites/item-emiliano3.json
+client/sprites/item-emiliano4.json
+client/sprites/item-emiliano5.json
+shared/js/gametypes_test.js

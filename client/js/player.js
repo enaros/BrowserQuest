@@ -73,7 +73,7 @@ define(['character', 'exceptions'], function(Character, Exceptions) {
 			}
 		},
 
-        loot: function(item) {
+        loot: function(item, game) {
             if(item) {
                 var rank, currentRank, msg, currentArmorName;
 
@@ -97,15 +97,21 @@ define(['character', 'exceptions'], function(Character, Exceptions) {
                     if(rank === currentRank) {
                         throw new Exceptions.LootException("You already have this "+item.type);
                     } else if(rank <= currentRank) {
-                        throw new Exceptions.LootException(msg);
+                        // throw new Exceptions.LootException(msg);
                     }
                 }
 
+                if (item.isItem && !item.multiple && game.storage.getItem(item.itemKind) == 1) {
+                    throw new Exceptions.LootException('You already have a ' + item.itemKind);
+                }
+
                 log.info('Player '+this.id+' has looted '+item.id);
+
                 if(Types.isArmor(item.kind) && this.invincible) {
                     this.stopInvincibility();
                 }
-                item.onLoot(this);
+                
+                item.onLoot(this, game);
             }
         },
 
@@ -278,6 +284,23 @@ define(['character', 'exceptions'], function(Character, Exceptions) {
                 self.stopInvincibility();
                 self.idle();
             }, 15000);
+        },
+
+        startHealeffect: function() {
+            var self = this;
+
+            if(!this.healeffect) {
+                this.healeffect = true;
+            } else {
+                // If the player already has it, just reset its duration.
+                if(this.healeffectTimeout) {
+                    clearTimeout(this.healeffectTimeout);
+                }
+            }
+
+            this.healeffectTimeout = setTimeout(function() {
+                self.healeffect = false;
+            }, 5000);
         },
 
         stopInvincibility: function() {

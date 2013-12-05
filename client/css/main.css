@@ -1,3 +1,8 @@
+input:-webkit-autofill {
+  background-color: white!important;
+  color: white!important;
+}
+
 /* Eric Meyer's CSS reset */
 
 html, body, div, span, applet, object, iframe,
@@ -93,7 +98,10 @@ footer, header, hgroup, menu, nav, section {
 	
 	body {padding:0;margin:0;background:#111;overflow:hidden;image-rendering:-moz-crisp-edges; image-rendering:-webkit-optimize-contrast;border-top:2px solid #707070;}
 	
-	canvas { position:absolute;image-rendering:optimizeSpeed;}
+	canvas { position:absolute;image-rendering:optimizeSpeed; transition:-webkit-filter 2s;}
+  canvas.blurry {
+    -webkit-filter: blur(10px); /* saturate(10); */
+  }
 	#background { background:url('../img/common/loading.png') no-repeat center center, #000;}
 	.error #background { background:url('../img/common/loading-error.png') no-repeat center center, #000;}
 	
@@ -136,7 +144,7 @@ footer, header, hgroup, menu, nav, section {
     #logosparks {display:block;position:absolute;top:0;left:0;}
     #parchment, #parchment input {font-family:'GraphicPixel';}
     #parchment input {width:50%;background:rgba(0,0,0,0.05);text-align:center;-moz-animation:glow 0.5s linear infinite alternate;-webkit-animation:glow 0.5s linear infinite alternate;-o-animation:glow 0.5s linear infinite alternate;-ms-animation:glow 0.5s linear infinite alternate;color:#eee;}
-    #parchment input:focus {-moz-animation:none;-webkit-animation:none;-o-animation:none;-ms-animation:none;animation:none;color:#fff;background:rgba(0,0,0,0.1);border-color:rgba(0,0,0,0.3);}
+    /* #parchment input:focus {-moz-animation:none;-webkit-animation:none;-o-animation:none;-ms-animation:none;animation:none;color:#fff;background:rgba(0,0,0,0.1);border-color:rgba(0,0,0,0.3);} */
     #parchment input.field-error {background:rgba(255,0,0,0.1);border-color:#f84444;}
 
     #character div {-moz-transition:0.4s opacity linear;-webkit-transition:0.4s opacity linear;-o-transition:0.4s opacity linear;-ms-transition:0.4s opacity linear;transition:0.4s opacity linear;}
@@ -241,7 +249,7 @@ footer, header, hgroup, menu, nav, section {
     #instructions {position:absolute;top:50%;left:50%;z-index:1000;font-family:'GraphicPixel';pointer-events:none;opacity:0;-moz-transition:0.25s opacity linear;-webkit-transition:0.4s top ease, 0.4s opacity linear;-o-transition:0.4s top ease, 0.4s opacity linear;-ms-transition:0.4s top ease, 0.4s opacity linear;transition:0.4s top ease, 0.4s opacity linear;}
     #instructions.active, #achievements.active {opacity:1;pointer-events:auto;}
     
-    #weapon, #armor {image-rendering:-moz-crisp-edges;}
+    #weapon, #armor {image-rendering:-moz-crisp-edges; cursor: pointer;}
 
     #achievements, #achievements li, .coin, #achievement-notification, #coinsparks, .achievement-sharing a, #previous, #next {background:url('../img/1/achievements.png');image-rendering:-moz-crisp-edges;}
     #achievements {font-family:'GraphicPixel'; position:absolute;top:50%;left:50%;z-index:1000;opacity:0;pointer-events:none;-moz-transition:0.25s opacity linear;-webkit-transition:0.4s top ease, 0.4s opacity linear;-o-transition:0.4s top ease, 0.4s opacity linear;-ms-transition:0.4s top ease, 0.4s opacity linear;transition:0.4s top ease, 0.4s opacity linear;}
@@ -275,7 +283,7 @@ footer, header, hgroup, menu, nav, section {
     @-webkit-keyframes blink { 0% {color:red;} 100% {color:#880000;}}
     .blink {-webkit-animation:blink 0.3s linear 5 alternate;-moz-animation:blink 0.3s linear 5 alternate;animation:blink 0.3s linear 5 alternate;}
 
-    #credits, #loadcharacter, #confirmation, #death, #error, #about, #legal {position:absolute;left:50%;text-align:center;font-family:'GraphicPixel', sans-serif;z-index:1000;}
+    #selectscreen, #credits, #loadcharacter, #confirmation, #death, #error, #about, #legal {position:absolute;left:50%;text-align:center;font-family:'GraphicPixel', sans-serif;z-index:1000;}
     
     #playerimage {image-rendering: -moz-crisp-edges; image-rendering: -webkit-optimize-contrast;}
     
@@ -330,8 +338,8 @@ footer, header, hgroup, menu, nav, section {
 
     #death p em {display:block;font-style:normal;}
     
-    #legal p {width:75%;font-size:25px;line-height:35px;}
-    #legal p a {color:#2e7fdd;text-decoration:none;}
+    #legal p, #selectscreen .wrapper {width:75%;font-size:25px;line-height:35px;}
+    #legal p a, #selectscreen a {color:#2e7fdd;text-decoration:none;}
     #close-legal {font-size:20px;margin-top:30px;}
     #toggle-legal, #legal-link a {padding:0 10px;}
     
@@ -352,8 +360,29 @@ footer, header, hgroup, menu, nav, section {
     .animate .parchment-left {-moz-animation:parchleft 1s ease 1;-webkit-animation:parchleft 1s ease 1;-o-animation:parchleft 1s ease 1;-ms-animation:parchleft 1s ease 1;animation:parchleft 1s ease 1;}
     .animate .parchment-right {-moz-animation:parchright 1s ease 1;-webkit-animation:parchright 1s ease 1;-o-animation:parchright 1s ease 1;-ms-animation:parchright 1s ease 1;animation:parchright 1s ease 1;}
 
-    #credits, #createcharacter, #loadcharacter, #confirmation, #death, #error, #about, #legal {opacity:0;pointer-events:none;-moz-transition:none;-webkit-transition:none;-o-transition:none;-ms-transition:none;transition:none;}
-    .credits #credits, .createcharacter #createcharacter, .loadcharacter #loadcharacter, .confirmation #confirmation, .death #death, .error #error, .about #about, .legal #legal {opacity:1;pointer-events:auto;-moz-transition:0.5s opacity linear;-webkit-transition:0.5s opacity linear;-o-transition:0.5s opacity linear;-ms-transition:0.5s opacity linear;transition:0.5s opacity linear;}
+    #selectscreen, 
+    #credits, 
+    #createcharacter, 
+    #loadcharacter, 
+    #confirmation, 
+    #death, 
+    #error, 
+    #about, 
+    #legal {
+      opacity:0;pointer-events:none;-moz-transition:none;-webkit-transition:none;-o-transition:none;-ms-transition:none;transition:none;
+    }
+    
+    .selectscreen #selectscreen, 
+    .credits #credits, 
+    .createcharacter #createcharacter, 
+    .loadcharacter #loadcharacter, 
+    .confirmation #confirmation, 
+    .death #death, 
+    .error #error, 
+    .about #about, 
+    .legal #legal {
+      opacity:1;pointer-events:auto;-moz-transition:0.5s opacity linear;-webkit-transition:0.5s opacity linear;-o-transition:0.5s opacity linear;-ms-transition:0.5s opacity linear;transition:0.5s opacity linear;
+    }
 
 /* States & Transitions */
 
@@ -365,13 +394,13 @@ footer, header, hgroup, menu, nav, section {
 
     .game #parchment {z-index:0;-moz-transition:0.5s opacity linear 0.5s, 0s z-index linear 1s;-webkit-transition:0.5s opacity linear 0.5s, 0s z-index linear 1s;-o-transition:0.5s opacity linear 0.5s, 0s z-index linear 1s;-ms-transition:0.5s opacity linear 0.5s, 0s z-index linear 1s;transition:0.5s opacity linear 0.5s, 0s z-index linear 1s;top:50%;}
     .game #credits, .game #death, .game #about {opacity:0;-moz-transition:0s opacity linear 0s;-webkit-transition:0s opacity linear 0s;-o-transition:0s opacity linear 0s;-ms-transition:0s opacity linear 0s;transition:0s opacity linear 0s;}
-    .game.credits #credits, .game.death #death, .game.about #about, .game.legal #legal {opacity:1;-moz-transition:0.5s opacity linear 0.5s;-webkit-transition:0.5s opacity linear 0.5s;-o-transition:0.5s opacity linear 0.5s;-ms-transition:0.5s opacity linear 0.5s;transition:0.5s opacity linear 0.5s;}
-    .game.credits #parchment, .game.death #parchment, .game.about #parchment, .game.legal #parchment {opacity:1;-moz-transition:0.5s opacity linear 0s, 0s z-index linear 0s;-webkit-transition:0.5s opacity linear 0s, 0s z-index linear 0s;-o-transition:0.5s opacity linear 0s, 0s z-index linear 0s;-ms-transition:0.5s opacity linear 0s, 0s z-index linear 0s;transition:0.5s opacity linear 0s, 0s z-index linear 0s;z-index:200;}
+    .game.credits #credits, .game.selectscreen #selectscreen, .game.death #death, .game.about #about, .game.legal #legal {opacity:1;-moz-transition:0.5s opacity linear 0.5s;-webkit-transition:0.5s opacity linear 0.5s;-o-transition:0.5s opacity linear 0.5s;-ms-transition:0.5s opacity linear 0.5s;transition:0.5s opacity linear 0.5s;}
+    .game.credits #parchment, .game.selectscreen #parchment, .game.death #parchment, .game.about #parchment, .game.legal #parchment {opacity:1;-moz-transition:0.5s opacity linear 0s, 0s z-index linear 0s;-webkit-transition:0.5s opacity linear 0s, 0s z-index linear 0s;-o-transition:0.5s opacity linear 0s, 0s z-index linear 0s;-ms-transition:0.5s opacity linear 0s, 0s z-index linear 0s;transition:0.5s opacity linear 0s, 0s z-index linear 0s;z-index:200;}
     .game .parchment-left {-moz-transition:0.5s left ease;-webkit-transition:0.5s left ease;-o-transition:0.5s left ease;-ms-transition:0.5s left ease;transition:0.5s left ease;left:41%;}
     .game .parchment-right {-moz-transition:0.5s right ease;-webkit-transition:0.5s right ease;-o-transition:0.5s right ease;-ms-transition:0.5s right ease;transition:0.5s right ease;right:41%;}
     .game .parchment-middle {-moz-transition:0.5s width ease, 0.5s margin-left ease, 0.5s background-position ease;-webkit-transition:0.5s width ease, 0.5s margin-left ease, 0.5s background-position ease;-o-transition:0.5s width ease, 0.5s margin-left ease, 0.5s background-position ease;-ms-transition:0.5s width ease, 0.5s margin-left ease, 0.5s background-position ease;transition:0.5s width ease, 0.5s margin-left ease, 0.5s background-position ease;width:0px;margin-left:0px;}
-    .game.credits .parchment-left, .game.death .parchment-left, .game.about .parchment-left, .game.legal .parchment-left {left:0%;}
-    .game.credits .parchment-right, .game.death .parchment-right, .game.about .parchment-right, .game.legal .parchment-right {right:0%;}
+    .game.credits .parchment-left, .game.selectscreen .parchment-left, .game.death .parchment-left, .game.about .parchment-left, .game.legal .parchment-left {left:0%;}
+    .game.credits .parchment-right, .game.selectscreen .parchment-right, .game.death .parchment-right, .game.about .parchment-right, .game.legal .parchment-right {right:0%;}
 
     #container {z-index:100;background:rgba(0,0,0,0.2);-moz-transition:1s opacity linear 0.5s;-webkit-transition:1s opacity linear 0.5s;-o-transition:1s opacity linear 0.5s;-ms-transition:1s opacity linear 0.5s;transition:1s opacity linear 0.5s;}
     .intro #container {opacity:0;pointer-events:none;}
@@ -519,7 +548,7 @@ footer, header, hgroup, menu, nav, section {
         #logo, #logosparks, .left-ornament, .right-ornament, #character, #character div, .button, .button div, #respawn, #scroll, #instructions, .icon, .avatar, .close, #note, .ribbon .top, .ribbon .bottom, #about .img, .ext-link {background-size:1266px auto;}
         #logo {height:126px;width:687px;position:absolute;top:10%;left:50%;margin-left:-344px;z-index:3;}
         #logosparks {width:687px;height:126px;z-index:4;-moz-animation:logo3 .8s steps(6, end) infinite;-webkit-animation:logo3 .8s steps(6, end) infinite;-o-animation:logo3 .8s steps(6, end) infinite;-ms-animation:logo3 .8s steps(6, end) infinite;}
-        #parchment, #loadcharacter, #confirmation, #error, #legal {width:1266px;height:546px;position:absolute;top:55%;left:50%;margin-left:-633px;margin-top:-273px;font-size:30px;text-align:center;z-index:2;}
+        #parchment, #loadcharacter, #confirmation, #error, #legal, #selectscreen {width:1266px;height:546px;position:absolute;top:55%;left:50%;margin-left:-633px;margin-top:-273px;font-size:30px;text-align:center;z-index:2;}
         #parchment h1 {margin-top:60px;font-weight:normal;}
         .left-ornament, .right-ornament {height:36px;width:93px;display:inline-block;margin:0 20px;position:relative;top:12px;}
         .left-ornament {background-position:-1062px 0;}
@@ -537,11 +566,12 @@ footer, header, hgroup, menu, nav, section {
         .play.loading img {width:24px;height:24px;}
         .stroke, .achievement-name {text-shadow:3px 3px 0 #373737, 3px -3px 0 #373737, 0 3px 0 #373737, 3px 0 0 #373737, -3px 3px 0 #373737, -3px -3px 0 #373737, 0 -3px 0 #373737, 0 3px 0 #373737, -3px 0 0 #373737;}
 
-        #loadcharacter h1, #confirmation h1, #error h1, #legal h1 {margin-top:30px;}
+        #loadcharacter h1, #confirmation h1, #error h1, #legal h1, #selectscreen h1 {margin-top:30px;}
         #playername {margin-top:15px;}
         .loadcharacter .play, .confirmation .delete {margin:15px auto 15px auto;}
         #confirmation p, #error p {font-size:30px;margin-top:60px;line-height:40px;}
-        #legal p {margin:50px auto 0;}
+        #legal p, #selectscreen .wrapper {margin:50px auto 0;}
+        #selectscreen .wrapper {margin:37px auto 0;}
         #error p {width:70%;margin:60px auto 0;}
         .button.delete {background-position:-687px -153px;}
         .button.delete:active {background-position:0 -2178px;}
@@ -558,6 +588,7 @@ footer, header, hgroup, menu, nav, section {
       margin-left: 0px;
       padding: 0px;
       border: 0px;
+      display:none;
     }
 
     #canvasborder {padding:15px;background:url('../img/3/border.png') no-repeat;}
@@ -679,7 +710,7 @@ footer, header, hgroup, menu, nav, section {
         .animate .parchment-middle {-moz-animation:parchmiddle3 1s ease 1;-webkit-animation:parchmiddle3 1s ease 1;-o-animation:parchmiddle3 1s ease 1;-ms-animation:parchmiddle3 1s ease 1;}
 
         .game .parchment-middle {background-position: -633px -882px;}
-        .game.credits .parchment-middle, .game.death .parchment-middle, .game.about .parchment-middle, .game.legal .parchment-middle {width:1038px;margin-left:-519px;background-position: -114px -882px;}
+        .game.credits .parchment-middle, .game.selectscreen .parchment-middle, .game.death .parchment-middle, .game.about .parchment-middle, .game.legal .parchment-middle {width:1038px;margin-left:-519px;background-position: -114px -882px;}
         
 	    footer {font-size:20px;}
         #resize-check {height:3px;}

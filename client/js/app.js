@@ -1,5 +1,5 @@
 
-define(['jquery', 'storage'], function($, Storage) {
+define(['jquery', 'storage', 'items'], function($, Storage, items) {
 
     var App = Class.extend({
         init: function() {
@@ -10,6 +10,7 @@ define(['jquery', 'storage'], function($, Storage) {
             this.storage = new Storage();
             this.watchNameInputInterval = setInterval(this.toggleButton.bind(this), 100);
             this.initFormFields();
+            this.items = items;
 
             if(localStorage && localStorage.data) {
                 this.frontPage = 'loadcharacter';
@@ -167,9 +168,10 @@ define(['jquery', 'storage'], function($, Storage) {
         start: function() {
             this.hideIntro();
             $('body').addClass('started');
-            if(firstTimePlaying) {
-                this.toggleInstructions();
-            }
+            // if(this.firstTimePlaying) {
+            //     this.toggleInstructions();
+            // }
+            // setTimeout((function() { this.toggleScrollContent('selectscreen') }).bind(this), 1000);
         },
         
         setPlayButtonState: function(enabled) {
@@ -472,6 +474,37 @@ define(['jquery', 'storage'], function($, Storage) {
             }
         },
 
+        initArmors: function() {
+            var self = this;
+            $('#armors li').click(function() {
+                self.game.player.switchArmor(game.sprites[$(this).data().armor]);
+                // self.game.client.sendLoot(new self.items.Legolasarmor(9999));
+            });
+            setInterval(function(){ $('#armors li:not(.off) i').toggleClass('anim') }, 600)
+        },
+
+        initInventory: function(itemList) {
+            var self = this;
+            _.each(itemList, function(q, item) {
+                var li = $('#inventory li.' + item)
+                if (q > 0) li.removeClass('off')
+                li.find('.quantity').text(q);
+                var capitalItem = item.charAt(0).toUpperCase() + item.slice(1);
+                var temp = new self.items[capitalItem]();
+                
+                if (temp.onUse) {
+                    li.addClass('usable');
+                    li.find('.use').click(function() {
+                        temp.onUse(self.game, this); // this is the .use element
+                        var q = game.storage.getItem(item);
+                        game.setItemMenu(item, q - 1);
+                    });
+                }
+                delete temp;
+            });
+
+        },
+
         showAchievementNotification: function(id, name) {
             var $notif = $('#achievement-notification'),
                 $name = $notif.find('.name'),
@@ -565,10 +598,14 @@ define(['jquery', 'storage'], function($, Storage) {
         toggleScrollContent: function(content) {
             var currentState = $('#parchment').attr('class');
 
+            if (currentState === content) {
+                return this.closeInGameScroll(content);
+            }
+
             if(this.game.started) {
                 $('#parchment').removeClass().addClass(content);
 
-                $('body').removeClass('credits legal about').toggleClass(content);
+                $('body').removeClass('credits legal about selectscreen').toggleClass(content);
 
                 if(!this.game.player) {
                     $('body').toggleClass('death');

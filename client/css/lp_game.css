@@ -1,0 +1,256 @@
+/* this allows the items menu to be hidden inside this element */
+#canvasborder {
+	position: absolute;
+	overflow: hidden;
+}
+
+#logo {
+	background-image: url(../img/3/title.png)!important;
+	background-size: auto;
+	background-repeat: no-repeat;
+	top: 15%;
+}
+
+/* SELECT SCREEN */
+
+#selectscreen .character {
+	/*border: 1px solid black;*/
+	width: 200px;
+	height: 300px;
+	float: left;
+	margin-right: 35px;
+}
+
+#selectscreen .level.level1 { background-image: url(../img/lp/level1.png); }
+#selectscreen .level.level2 { background-image: url(../img/lp/level2.png); }
+#selectscreen .level.level3 { background-image: url(../img/lp/level3.png); }
+#selectscreen .level.level4 { background-image: url(../img/lp/level4.png); }
+
+#selectscreen .level:hover > .desc {
+	bottom: 0px;
+}
+
+#selectscreen .level .desc {
+	position: absolute;
+	bottom: -30px;
+	font-size: 17px;
+	width: 296px;
+	background: #333;
+	color: #fff;
+	height: 30px;
+	-webkit-transition: bottom 0.25s ease;
+}
+
+#selectscreen .level {
+	border: 5px solid #333;
+	width: 296px;
+	height: 145px;
+	display: inline-block;
+	border-radius: 4px;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+}
+
+#levels {
+	float: left;
+	width: 684px;
+	/*border: 1px solid #f00;*/
+	margin-left: 30px;
+}
+
+/* Inventory, weapons and armors SCREEN */
+
+.right-menu {
+	color: #fff;
+	font-family:'GraphicPixel';
+	width: 300px;
+	height: 672px;
+	border-left: 3px solid #333;
+	position: absolute;
+	z-index: 1;
+	background: rgba(30, 30, 30, .95);
+	pointer-events: auto;
+	-webkit-transform: translateX(1537px);
+	-webkit-transition: all 0.5s ease;
+}
+
+.right-menu.active {
+	-webkit-transform: translateX(1137px);
+}
+
+.right-menu h1 {
+	font-size: 21px;
+	text-align: center;
+	margin: 10px;
+}
+
+#inventory .buy, #inventory .use {
+	display: none;
+	cursor: pointer;
+}
+
+#inventory .buyable:hover > .buy {
+	display: inline-block;
+}
+
+#inventory .usable:hover > .use {
+	display: inline-block;
+}
+
+#inventory .off.usable:hover > .use {
+	display: none;
+}
+
+#inventory .buyable:hover > .quantity {
+	display: none;
+}
+
+
+#inventory li {
+	padding: 8px 10px;
+	border-bottom: 3px solid #333;
+	cursor: pointer;
+}
+
+#inventory li.off i {
+	-webkit-filter: grayscale(100%);
+	opacity: .5;
+}
+
+#inventory li.off .name, #inventory li.off .quantity {
+	opacity: .5;
+}
+
+#inventory li.marblependant i {
+	background: url(../img/2/item-marblependant.png);	
+}
+
+#inventory li.mushroom i {
+	background: url(../img/lp/item-mushroom.png);	
+}
+
+#inventory li.snowpotion i {
+	background: url(../img/2/item-snowpotion.png);	
+}
+
+
+#inventory li i {
+	width: 32px;
+	height: 32px;
+	margin-right: 12px;
+	display: inline-block;
+}
+
+#inventory li .name {
+	position: relative;
+	top: -6px;
+}
+
+#inventory li .quantity, #inventory .buy, #inventory .use {
+	background: #111;
+	padding: 4px 2px;
+	border-radius: 6px;
+	position: absolute;
+	right: 13px;
+	margin-top: 5px;
+	width: 31px;
+	text-align: center;
+	border: 2px solid #333;
+}
+
+#inventory .buy:hover, #inventory .use:hover {
+	opacity: 1;
+}
+
+#inventory .buy, #inventory .use {
+	width: 38px;
+	background: #000099;
+	border-color: #ffffff;
+	box-shadow: 2px 2px #fff;
+	margin-top: 2px;
+	opacity: .8;
+}
+
+#inventory .use {
+	background: #c00;
+}
+
+#inventory .buyable.usable .use {
+	right: 66px;
+}
+
+/* ------------------------------------------------------------------------------------------ */
+
+#armors ul li .name {
+	display: block;
+	text-align: center;
+}
+
+#armors .buy {
+	padding: 4px 2px;
+	border-radius: 6px;
+	width: 38px;
+	background: #000099;
+	border-color: #ffffff;
+	box-shadow: 2px 2px #fff;
+	text-align: center;
+	border: 2px solid #333;
+	display:none;
+	position: absolute;
+	margin-top: -27px;
+	margin-left: 51px;
+}
+
+#armors ul li:hover > i { background-position-y: 0; }
+#armors ul li.off:hover > i { background-position-y: 96px; }
+#armors ul li.off:hover > .buy { display: block; }
+#armors ul li.off:hover > .name { visibility: hidden; }
+
+#armors ul li:hover {
+	background: #191919;
+	border-radius: 3px;
+}
+
+#armors ul li.off > i {
+	-webkit-filter: grayscale(100%);
+	opacity: .5;
+}
+
+#armors ul li {
+	width: 50%;
+	cursor: pointer;
+	float: left;
+	padding-bottom: 10px;
+}
+
+#armors ul li i {
+	width:96px;
+	height:96px;
+	display: block;
+	margin: auto;
+	background-position-y: 96px;
+}
+
+#armors ul li i.anim {
+	background-position-x: -96px;
+}
+
+#armors .legolasarmor i {
+	background-image:url(../img/3/legolasarmor.png);
+}
+
+#armors .ironmanarmor i {
+	background-image:url(../img/3/ironmanarmor.png);
+}
+
+#armors .goldenarmor i {
+	background-image:url(../img/3/goldenarmor.png);
+}
+
+#armors .platearmor i {
+	background-image:url(../img/3/platearmor.png);
+}
+
+
+

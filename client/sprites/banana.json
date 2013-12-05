@@ -1,0 +1,1 @@
+{	"id": "banana",	"width": 22,	"height": 24,	"animations": {		"idle_down": {			"length": 8,			"row": 0		}	},	"offset_x": -3,	"offset_y": -11}

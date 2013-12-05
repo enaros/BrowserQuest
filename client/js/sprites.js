@@ -60,6 +60,7 @@ define(['text!../sprites/agent.json',
         'text!../sprites/snake.json',
         'text!../sprites/sorcerer.json',
         'text!../sprites/sparks.json',
+        'text!../sprites/healeffect.json',
         'text!../sprites/spectre.json',
         'text!../sprites/sword.json',
         'text!../sprites/sword1.json',
@@ -68,7 +69,27 @@ define(['text!../sprites/agent.json',
         'text!../sprites/target.json',
         'text!../sprites/villagegirl.json',
         'text!../sprites/villager.json',
-        'text!../sprites/wizard.json'], function() {
+        'text!../sprites/wizard.json',
+        // my added sprites
+       
+        'text!../sprites/item-test.json',
+        'text!../sprites/item-pearlring.json',
+        'text!../sprites/spongebob.json',
+        'text!../sprites/eliminator.json',
+        'text!../sprites/legolasarmor.json',
+        'text!../sprites/item-legolasarmor.json',
+        'text!../sprites/bastardsword.json',
+        'text!../sprites/forestdragon.json',
+        'text!../sprites/item-snowpotion.json', /* sprites */
+        'text!../sprites/angel.json',
+        'text!../sprites/joker.json',
+        'text!../sprites/banana.json',
+        'text!../sprites/ironmanarmor.json',
+        'text!../sprites/item-ironmanarmor.json',
+        'text!../sprites/item-mushroom.json',
+        'text!../sprites/item-marblependant.json'
+        ], 
+        function() {
 
     var sprites = {};
 

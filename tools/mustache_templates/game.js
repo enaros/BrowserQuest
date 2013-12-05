@@ -1,0 +1,2 @@
+
+                                "{{spriteName}}",  /* this.SpriteNames */

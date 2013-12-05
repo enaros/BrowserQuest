@@ -1,8 +1,78 @@
 define(['character'], function(Character) {
 
     var NpcTalk = {
+
+        "angel": [
+            {
+                "text": [ //default
+                    "Hi Jonas!.",
+                    "I am an angel!.",
+                    "The red one will replenish your health points...",
+                    "The orange one will turn you into a firefox and make you invincible...",
+                    "But it only lasts for a short while.",
+                    "So make good use of it!",
+                    "Now if you'll excuse me, I need to get back to my experiments..."
+                ]
+            },
+            {
+                "condition": function(game) { 
+                    console.log(game);
+                    return (game.player.invincible);
+                },
+                "text": [
+                    "Did you not listen to what I said?!!",
+                    "the famous fire-potion only lasts a few seconds",
+                    "You shouldn't be wasting them talking to me…"
+                ]
+            }
+        ],
+
+       
+        "spongebob": [
+            {
+                "text" : [
+                    { me: 'hi' },
+                    { him: 'is this a test?' },
+                    { me: 'yes it is!' },
+                    { him: 'ciao!' },
+                    function(game) { 
+                        // game.teleport({ x: 78, y: 41 });
+                        this.alreadySpoken = true; 
+                    }
+                ]
+            },
+            {
+                "condition": function(game) { 
+                    return (this.alreadySpoken);
+                },
+                "text": [
+                    "Do you know the answer to life the universe and everything???",
+                    "IT IS 42!"
+                ]
+            }
+        ],
+        /* npctalk */
+
+        "banana": [
+            {
+                "text": [ //default
+                    "It's peanut butter jelly time!",
+                    "peanut butter jelly time!",
+                    "weia weia weia",
+                    "peanut butter jelly, peanut butter jelly!!!",
+                    function(game) {
+                        $('canvas').toggleClass('blurry');
+                        setTimeout(function() {
+                            game.teleport({ x: 155, y: 69 });
+                            $('canvas').toggleClass('blurry');
+                        }, 2000);
+                    }
+                ]
+            }
+        ],
+
         "guard": [
-            "Hello there",
+            "Hello mate!",
             "We don't need to see your identification",
             "You are not the player we're looking for",
             "Move along, move along..."
@@ -63,33 +133,38 @@ define(['character'], function(Character) {
             "Never gonna tell a lie and hurt you"
         ],
 
-        "scientist": [{
-			"text": [//default
-				"Greetings.",
-				"I am the inventor of these two potions.",
-				"The red one will replenish your health points...",
-				"The orange one will turn you into a firefox and make you invincible...",
-				"But it only lasts for a short while.",
-				"So make good use of it!",
-				"Now if you'll excuse me, I need to get back to my experiments..."
-			]},
-			{"condition": function(game){return (game.player.invincible);},
-			 "text": [
-				"Did you not listen to what I said?!!",
-				"the famous fire-potion only lasts a few seconds",
-				"You shouldn't be wasting them talking to me…"
-			]},
-			{"condition": function(game){return ((game.player.getSpriteName() == "firefox")
-											&& !(game.player.invincible));},
-			 "text": [
-				"Ha ha ha, *name*",
-				"All that glitters is not gold…",
-				"-sigh-",
-				"Did you really think you could abuse me with your disguise?",
-				"I conceived that f…, that potion.",
-				"Better not use your outfit as a deterrent,",
-				"The goons you'll meet will attack you whatever you look like."
-			]}
+        "scientist": [
+            {
+    			"text": [//default
+    				"Greetings.",
+    				"I am the inventor of these two potions.",
+    				"The red one will replenish your health points...",
+    				"The orange one will turn you into a firefox and make you invincible...",
+    				"But it only lasts for a short while.",
+    				"So make good use of it!",
+    				"Now if you'll excuse me, I need to get back to my experiments..."
+    			]
+            },
+			{
+                "condition": function(game) { return (game.player.invincible); },
+    			"text": [
+    				"Did you not listen to what I said?!!",
+    				"the famous fire-potion only lasts a few seconds",
+    				"You shouldn't be wasting them talking to me…"
+    			]
+            },
+			{
+                "condition": function(game) { return ((game.player.getSpriteName() == "firefox") && !(game.player.invincible)); },
+    			"text": [
+    				"Ha ha ha, *name*",
+    				"All that glitters is not gold…",
+    				"-sigh-",
+    				"Did you really think you could abuse me with your disguise?",
+    				"I conceived that f…, that potion.",
+    				"Better not use your outfit as a deterrent,",
+    				"The goons you'll meet will attack you whatever you look like."
+    			]
+            }
 			
 		],
 
@@ -167,11 +242,34 @@ define(['character'], function(Character) {
         ],
 
         "desertnpc": [
-            "One does not simply walk into these mountains...",
-            "An ancient undead lord is said to dwell here.",
-            "Nobody knows exactly what he looks like...",
-            "...for none has lived to tell the tale.",
-            "It's not too late to turn around and go home, kid."
+            {
+                "text" : [
+                    { me: 'hi' },
+                    { me: 'how are you?' },
+                    { him: 'I am fine, thanks' },
+                    { him: 'but please, I am not in the mood to talk right now' },
+                    { me: 'ok, bye' },
+                    { him: 'ciao!' },
+                    function(game) { 
+                        this.yaHablamos = true; 
+                    }
+                ]
+            },
+            {
+                "condition": function(game) { 
+                    return (this.yaHablamos);
+                },
+                "text": [
+                    "Did you not listen to what I said?!!",
+                    "the famous fire-potion only lasts a few seconds",
+                    "You shouldn't be wasting them talking to me…"
+                ]
+            }
+            // "One does not simply walk into these mountains...",
+            // "An ancient undead lord is said to dwell here.",
+            // "Nobody knows exactly what he looks like...",
+            // "...for none has lived to tell the tale.",
+            // "It's not too late to turn around and go home, kid."
         ],
 
         "othernpc": [
@@ -188,7 +286,7 @@ define(['character'], function(Character) {
 				this.discourse = -1;
 				this.talkCount = NpcTalk[this.itemKind].length;
 			}
-			else{
+			else {
 				this.discourse = 0;
 				this.talkCount = NpcTalk[this.itemKind][this.discourse]["text"].length;
 			}
@@ -200,7 +298,7 @@ define(['character'], function(Character) {
 			if(this.discourse != -1){
 				var found = false;
 				for(var i = 1; !found && i<NpcTalk[this.itemKind].length; i++){
-					if(NpcTalk[this.itemKind][i]["condition"](game)){
+					if(NpcTalk[this.itemKind][i]["condition"].call(this, game)){
 						if(this.discourse != i){
 							change = true;
 							this.discourse = i;
@@ -227,16 +325,26 @@ define(['character'], function(Character) {
                 this.talkIndex = 0;
             }
             if(this.talkIndex < this.talkCount) {
-				if(this.discourse == -1){
+				if(this.discourse == -1) {
 					msg = NpcTalk[this.itemKind][this.talkIndex];
 				}
-				else{
+				else {
 					msg = NpcTalk[this.itemKind][this.discourse]["text"][this.talkIndex];
+                    if (typeof msg == 'function') {
+                        msg.call(this, game);
+                        // this.talkIndex += 1;
+                        // msg = this.talk(game);
+                        msg = '';
+                    }
 				}
             }
+            
             this.talkIndex += 1;
 
-            return msg.replace('*name*',game.player.name);
+            if (msg.me) return { me: msg.me }
+            else if (msg.him) msg = msg.him;
+            
+            return msg.replace('*name*', game.player.name);
         }
     });
 

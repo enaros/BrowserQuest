@@ -4,7 +4,7 @@ define(['jquery', 'app', 'entrypoint'], function($, App, EntryPoint) {
 
     var initApp = function() {
         $(document).ready(function() {
-            app = new App();
+            app = new App(); window.app = app;
             app.center();
 
             if(Detect.isWindows()) {
@@ -48,14 +48,14 @@ define(['jquery', 'app', 'entrypoint'], function($, App, EntryPoint) {
                 }
             });
 
-            $('#helpbutton').click(function() {
-                if($('body').hasClass('about')) {
-                    app.closeInGameScroll('about');
-                    $('#helpbutton').removeClass('active');
-                } else {
-                    app.toggleScrollContent('about');
-                }
-            });
+            // $('#helpbutton').click(function() {
+            //     if($('body').hasClass('about')) {
+            //         app.closeInGameScroll('about');
+            //         $('#helpbutton').removeClass('active');
+            //     } else {
+            //         app.toggleScrollContent('about');
+            //     }
+            // });
 
             $('#achievementsbutton').click(function() {
                 app.toggleAchievements();
@@ -69,9 +69,36 @@ define(['jquery', 'app', 'entrypoint'], function($, App, EntryPoint) {
                 app.hideWindows();
             });
 
+            /* select screen, armor and weapons handlers    */
+            /* ------------------------------------------- */
+
             $('#playercount').click(function() {
-                app.togglePopulationInfo();
+                app.toggleScrollContent('selectscreen');
             });
+
+            $('#armor').click(function() {
+                $('#inventory, #weapons').removeClass('active');
+                $('#armors').toggleClass('active');
+            });
+
+            $('#weapon').click(function() {
+                $('#armors, #inventory').removeClass('active');
+                $('#weapons').toggleClass('active');
+            });
+
+            $('.itemsbutton, #inventory .close').click(function() {
+                $('#inventory').toggleClass('active');
+            });
+
+            $('.itemsbutton').click(function() {
+                $('#armors, #weapons').removeClass('active');
+            });
+
+            $('#inventory .close').click(function() {
+                $('.itemsbutton').toggleClass('active');
+            });
+
+            /* ------------------------------------------- */
 
             $('#population').click(function() {
                 app.togglePopulationInfo();
@@ -97,7 +124,7 @@ define(['jquery', 'app', 'entrypoint'], function($, App, EntryPoint) {
             });
 
             $('#create-new span').click(function() {
-                app.animateParchment('loadcharacter', 'confirmation');
+                app.animateParchment('loadcharacter', 'createcharacter');
             });
 
             $('#continue span').click(function() {
@@ -204,7 +231,7 @@ define(['jquery', 'app', 'entrypoint'], function($, App, EntryPoint) {
                 foreground = document.getElementById("foreground"),
                 input = document.getElementById("chatinput");
 
-            game = new Game(app);
+            game = new Game(app); window.game = game;
             game.setup('#bubbles', canvas, background, foreground, input);
             game.setStorage(app.storage);
             app.setGame(game);
@@ -242,13 +269,13 @@ define(['jquery', 'app', 'entrypoint'], function($, App, EntryPoint) {
             game.onNbPlayersChange(function(worldPlayers, totalPlayers) {
                 var setWorldPlayersString = function(string) {
                         $("#instance-population").find("span:nth-child(2)").text(string);
-                        $("#playercount").find("span:nth-child(2)").text(string);
+                        // $("#playercount").find("span:nth-child(2)").text(string);
                     },
                     setTotalPlayersString = function(string) {
                         $("#world-population").find("span:nth-child(2)").text(string);
                     };
 
-                $("#playercount").find("span.count").text(worldPlayers);
+                // $("#playercount").find("span.count").text(worldPlayers);
 
                 $("#instance-population").find("span").text(worldPlayers);
                 if(worldPlayers == 1) {

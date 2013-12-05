@@ -4,9 +4,10 @@ var Types = require("../../shared/js/gametypes");
 var Properties = {
     rat: {
         drops: {
-            flask: 40,
-            burger: 10,
-            firepotion: 5
+            // flask: 40,
+            // burger: 10,
+            // firepotion: 5
+            snowpotion: 100
         },
         hp: 25,
         armor: 1,
@@ -146,9 +147,38 @@ var Properties = {
         drops: {
             goldensword: 100
         },
-        hp: 700,
+        hp: 7,
         armor: 6,
         weapon: 7
+    },
+
+   
+    eliminator: {
+        drops: {
+            mushroom: 100
+        },
+        hp: 10,
+        armor: 2,
+        weapon: 4
+    },
+   
+    forestdragon: {
+        drops: {
+            mushroom: 100
+        },
+        hp: 10,
+        armor: 2,
+        weapon: 4
+    },
+    /* properties */
+
+    joker: {
+        drops: {
+            goldensword: 100
+        },
+        hp: 100,
+        armor: 2,
+        weapon: 4
     }
 };
 

@@ -55,7 +55,27 @@ Types = {
     },
 
     Entities: {
-        WARRIOR: 1,
+        WARRIOR: 1, 
+
+       
+        TEST: 100,
+       
+        PEARLRING: 101,
+       
+        SPONGEBOB: 102,
+       
+        ELIMINATOR: 103,
+       
+        LEGOLASARMOR: 104,
+       
+        LEGOLASARMOR: 105,
+       
+        BASTARDSWORD: 106,
+       
+        FORESTDRAGON: 107,
+       
+        SNOWPOTION: 108,
+        /* gametypes entities 109 */
 
         // Mobs
         RAT: 2,
@@ -72,6 +92,9 @@ Types = {
         BOSS: 13,
         DEATHKNIGHT: 14,
 
+        // Extra added!
+        JOKER: 15,
+
         // Armors
         FIREFOX: 20,
         CLOTHARMOR: 21,
@@ -81,12 +104,19 @@ Types = {
         REDARMOR: 25,
         GOLDENARMOR: 26,
 
+        // Extra added!
+        IRONMANARMOR: 27,
+
         // Objects
         FLASK: 35,
         BURGER: 36,
         CHEST: 37,
         FIREPOTION: 38,
         CAKE: 39,
+
+        // Extra added!
+        MARBLEPENDANT: 34,
+        MUSHROOM: 33,
 
         // NPCs
         GUARD: 40,
@@ -105,6 +135,10 @@ Types = {
         DESERTNPC: 53,
         LAVANPC: 54,
         CODER: 55,
+
+        // Extra added!
+        ANGEL: 56,
+        BANANA: 57,
 
         // Weapons
         SWORD1: 60,
@@ -148,6 +182,26 @@ Types = {
 var kinds = {
     warrior: [Types.Entities.WARRIOR, "player"],
 
+   
+    test: [Types.Entities.TEST, "object"],
+   
+    pearlring: [Types.Entities.PEARLRING, "object"],
+   
+    spongebob: [Types.Entities.SPONGEBOB, "npc"],
+   
+    eliminator: [Types.Entities.ELIMINATOR, "mob"],
+   
+    legolasarmor: [Types.Entities.LEGOLASARMOR, "armor"],
+   
+    legolasarmor: [Types.Entities.LEGOLASARMOR, "object"],
+   
+    bastardsword: [Types.Entities.BASTARDSWORD, "weapon"],
+   
+    forestdragon: [Types.Entities.FORESTDRAGON, "mob"],
+   
+    snowpotion: [Types.Entities.SNOWPOTION, "object"],
+    /* kinds */          
+
     rat: [Types.Entities.RAT, "mob", 5, 2],
     skeleton: [Types.Entities.SKELETON , "mob", 15, 8],
     goblin: [Types.Entities.GOBLIN, "mob", 8, 5],
@@ -161,6 +215,9 @@ var kinds = {
     eye: [Types.Entities.EYE, "mob",45, 18],
     skeleton2: [Types.Entities.SKELETON2, "mob", 38, 15],
     boss: [Types.Entities.BOSS, "mob", 140,  48],
+
+    // Extra added!
+    joker: [Types.Entities.JOKER, "mob", 30,  30],
 
     sword1: [Types.Entities.SWORD1, "weapon"],
     sword2: [Types.Entities.SWORD2, "weapon"],
@@ -178,11 +235,18 @@ var kinds = {
     redarmor: [Types.Entities.REDARMOR, "armor"],
     goldenarmor: [Types.Entities.GOLDENARMOR, "armor"],
 
+    // Extra added!
+    ironmanarmor: [Types.Entities.IRONMANARMOR, "armor"],
+
     flask: [Types.Entities.FLASK, "object"],
     cake: [Types.Entities.CAKE, "object"],
     burger: [Types.Entities.BURGER, "object"],
     chest: [Types.Entities.CHEST, "object"],
     firepotion: [Types.Entities.FIREPOTION, "object"],
+    
+    // Extra added!
+    marblependant: [Types.Entities.MARBLEPENDANT, "object"],
+    mushroom: [Types.Entities.MUSHROOM, "object"],
 
     guard: [Types.Entities.GUARD, "npc"],
     villagegirl: [Types.Entities.VILLAGEGIRL, "npc"],
@@ -200,6 +264,10 @@ var kinds = {
     forestnpc: [Types.Entities.FORESTNPC, "npc"],
     desertnpc: [Types.Entities.DESERTNPC, "npc"],
     lavanpc: [Types.Entities.LAVANPC, "npc"],
+
+    // Extra added!
+    angel:  [Types.Entities.ANGEL, "npc"],
+    banana:  [Types.Entities.BANANA, "npc"],
 
     getType: function(kind) {
         return kinds[Types.getKindAsString(kind)][1];
@@ -229,6 +297,7 @@ Types.rankedArmors = [
     Types.Entities.MAILARMOR,
     Types.Entities.PLATEARMOR,
     Types.Entities.REDARMOR,
+    Types.Entities.IRONMANARMOR,
     Types.Entities.GOLDENARMOR
 ];
 

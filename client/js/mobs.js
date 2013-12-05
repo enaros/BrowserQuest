@@ -153,6 +153,67 @@ define(['mob', 'timer'], function(Mob, Timer) {
                     this._super(orientation);
                 }
             }
+        }),
+
+        // Extra Added!
+
+       
+        Eliminator: Mob.extend({
+            init: function(id) {
+                this._super(id, Types.Entities.ELIMINATOR);
+                this.moveSpeed = 300;
+                this.atkSpeed = 50;
+                this.idleSpeed = 400;
+                this.atkRate = 2000;
+                this.attackCooldown = new Timer(this.atkRate);
+                this.aggroRange = 3;
+            },
+
+            idle: function(orientation) {
+                if(!this.hasTarget()) {
+                    this._super(Types.Orientations.DOWN);
+                } else {
+                    this._super(orientation);
+                }
+            }
+        }),
+       
+        Forestdragon: Mob.extend({
+            init: function(id) {
+                this._super(id, Types.Entities.FORESTDRAGON);
+                this.moveSpeed = 300;
+                this.atkSpeed = 50;
+                this.idleSpeed = 400;
+                this.atkRate = 2000;
+                this.attackCooldown = new Timer(this.atkRate);
+                this.aggroRange = 3;
+            },
+
+            idle: function(orientation) {
+                if(!this.hasTarget()) {
+                    this._super(Types.Orientations.DOWN);
+                } else {
+                    this._super(orientation);
+                }
+            }
+        }),
+        /* mobs */
+
+        Joker: Mob.extend({
+            init: function(id) {
+                this._super(id, Types.Entities.JOKER);
+                this.moveSpeed = 200;
+                this.atkSpeed = 100;
+                this.idleSpeed = 400;
+            },
+
+            idle: function(orientation) {
+                if(!this.hasTarget()) {
+                    this._super(Types.Orientations.DOWN);
+                } else {
+                    this._super(orientation);
+                }
+            }
         })
     };
 

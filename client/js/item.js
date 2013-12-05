@@ -14,12 +14,22 @@ define(['entity'], function(Entity) {
             return true;
         },
 
-        onLoot: function(player) {
+        onLoot: function(player, game) {
             if(this.type === "weapon") {
                 player.switchWeapon(this.itemKind);
             }
             else if(this.type === "armor") {
                 player.armorloot_callback(this.itemKind);
+            }
+
+            if (this.isItem) {
+                if (this.multiple) {
+                    game.setItemMenu(this.itemKind, game.storage.getItem(this.itemKind) + this.multiple);
+                } else {
+                    game.setItemMenu(this.itemKind, 1);    
+                }
+                
+                console.log(this);
             }
         },
 

@@ -28,6 +28,7 @@ Mozilla presents an HTML5 mini-MMORPG by Little Workshop http://www.littleworksh
         <meta property="og:site_name" content="BrowserQuest">
         <meta property="og:description" content="Play Mozilla's BrowserQuest, an HTML5 massively multiplayer game demo powered by WebSockets!">
         <link rel="stylesheet" href="css/main.css" type="text/css">
+        <link rel="stylesheet" href="css/lp_game.css" type="text/css">
         <link rel="stylesheet" href="css/achievements.css" type="text/css">
 
         <link href="img/common/apple-touch-icon-57x57.png" rel="apple-touch-icon-precomposed" sizes="57x57">
@@ -51,24 +52,39 @@ Mozilla presents an HTML5 mini-MMORPG by Little Workshop http://www.littleworksh
                 </script>
         <![endif]-->
         <script src="js/detect.js" type="text/javascript"></script>
+        <style type="text/css">
+            .yui3-widget-mask { position: fixed; z-index: 999998; height: 100%; width: 100%; top: 0; left: 0;
+                                background-color: #111; opacity:0.90; filter:alpha(opacity=90); }
+            .yui3-panel:focus, .yui3-overlay:focus { outline: 0; }
+            .lp_closebtn { text-align: right; }
+            .lp_closebtn a { text-decoration: underline; color: #fff; }
+            .lp_closebtn a img { text-decoration: none; vertical-align: middle; padding-left: 6px; }
+
+            .lp_status {
+                width: 100%;
+                height: 25px;
+                border: 0;
+            }
+
+            h3 > a.lp_purchase, h5 > a.lp_purchase {
+                color: red;
+            }
+    </style>
         <title>BrowserQuest</title>
 	</head>
     <!--[if lt IE 9]>
 	<body class="intro upscaled">
     <![endif]-->
-    <a href="https://github.com/browserquest/BrowserQuest"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
-	<body class="intro">
+    <body class="intro">
 	    <noscript>
 	       <div class="alert">
 	           You need to enable JavaScript to play BrowserQuest.
 	       </div>
 	    </noscript>
-	    <a id="moztab" class="clickable" target="_blank" href="http://www.mozilla.org/"></a>
+	    <!-- <a id="moztab" class="clickable" target="_blank" href="http://www.mozilla.org/"></a> -->
 	    <div id="intro">
 	        <h1 id="logo">
-	           <span id="logosparks">
-
-	           </span>
+	           <!--<span id="logosparks"></span>-->
 	        </h1>
 	        <article id="portrait">
 	            <p>
@@ -76,7 +92,7 @@ Mozilla presents an HTML5 mini-MMORPG by Little Workshop http://www.littleworksh
 	            </p>
 	            <div id="tilt"></div>
 	        </article>
-	        <section id="parchment" class="createcharacter">
+	        <section id="parchment" class="culo">
 	            <div class="parchment-left"></div>
 	            <div class="parchment-middle">
                     <article id="createcharacter">
@@ -85,11 +101,11 @@ Mozilla presents an HTML5 mini-MMORPG by Little Workshop http://www.littleworksh
           	               Create New Character
           	               <span class="right-ornament"></span>
                          </h1>
-                         <form action="none" method="get" accept-charset="utf-8">
-                             <input type="text" id="nameinput" class="stroke" name="player-name" placeholder="Character Name" maxlength="12">
+                         <form action="none" method="get" accept-charset="utf-8" autocomplete="off">
+                             <input type="text" id="nameinput" class="stroke" name="player-name" placeholder="Character Name" maxlength="12" autocomplete="off">
                              <input type="password" id="pwinput" class="stroke" name="player-pw" placeholder="Password" maxlength="15">
                              <input type="password" id="pwinput2" class="stroke" name="player-pw2" placeholder="Confirm Password" maxlength="15">
-                             <input type="email" id="emailinput" class="stroke" name="player-email" placeholder="Email address" maxlength="48">
+                             <input type="email" id="emailinput" class="stroke" name="player-email" placeholder="Email address" maxlength="48" autocomplete="off">
                          </form>
                          <div class="play">
                            <span class="link">Create</span>
@@ -99,11 +115,11 @@ Mozilla presents an HTML5 mini-MMORPG by Little Workshop http://www.littleworksh
                     <article id="loadcharacter">
           	           <h1>
           	               <span class="left-ornament"></span>
-          	               BrowserQuest
+          	               a LaterPay adventure
           	               <span class="right-ornament"></span>
                          </h1>
-                         <form action="none" method="get" accept-charset="utf-8">
-                             <input type="text" id="loginnameinput" class="stroke" name="player-name" placeholder="Character Name" maxlength="12" autofocus>
+                         <form action="none" method="get" accept-charset="utf-8" autocomplete="off">
+                             <input type="text" id="loginnameinput" class="stroke" name="player-name" placeholder="Character Name" maxlength="12" autofocus autocomplete="off">
                              <input type="password" id="loginpwinput" class="stroke" name="player-loginpw" placeholder="Password" maxlength="15">
                          </form>
                          <div class="play">
@@ -194,7 +210,7 @@ Mozilla presents an HTML5 mini-MMORPG by Little Workshop http://www.littleworksh
                       <div id="close-about">
                           <span>- click anywhere to close -</span>
                         </div>
-                  </article>
+                    </article>
     	            <article id="death">
                         <p>You are dead...</p>
     					<div id="respawn" class="button"></div>
@@ -223,6 +239,41 @@ Mozilla presents an HTML5 mini-MMORPG by Little Workshop http://www.littleworksh
  	                        <span>- click anywhere to close -</span>
                          </div>
                     </article>
+                    
+                    <!-- added parchments -->
+
+                    <article id="selectscreen" class="clickable">
+                        <h1>
+                           <span class="left-ornament"></span> Select Screen <span class="right-ornament"></span>
+                        </h1>
+                        <div class="wrapper">
+                             <div class="character">
+                                <img/>
+                             </div>
+                             <div id="levels">
+                                <div class="level level1" data-x="38" data-y="250">
+                                    <div class="desc">
+                                        LEVEL 1
+                                    </div>
+                                </div>
+                                <div class="level level2" data-x="6" data-y="178">
+                                    <div class="desc">
+                                        LEVEL 2
+                                    </div>
+                                </div>
+                                <div class="level level3" data-x="63" data-y="137">
+                                    <div class="desc">
+                                        LEVEL 3
+                                    </div>
+                                </div>
+                                <div class="level level4" data-x="51" data-y="44">
+                                    <div class="desc">
+                                        LEVEL 4
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
 	            </div>
 	            <div class="parchment-right"></div>
 	        </section>
@@ -230,7 +281,63 @@ Mozilla presents an HTML5 mini-MMORPG by Little Workshop http://www.littleworksh
 
 		<div id="container">
 		    <div id="canvasborder">
-		        <article id="instructions" class="clickable">
+		        <article id="inventory" class="right-menu clickable">
+                    <div class="close"></div>
+                    <h1> INVENTORY </h1>
+                    <ul>
+                        <li class="marblependant off">
+                            <i class="item"></i>
+                            <span class="name">marble pendant</span>
+                            <span class="quantity">0</span>
+                        </li>
+                        <li class="mushroom off buyable">
+                            <i class="item"></i>
+                            <span class="name">mushrooms</span>
+                            <span class="quantity">0</span>
+                            <span class="buy">BUY</span>
+                        </li>
+                        <li class="snowpotion off buyable">
+                            <i class="item"></i>
+                            <span class="name">snow potion</span>
+                            <span class="quantity">0</span>
+                            <span class="buy">BUY</span>
+                            <span class="use">USE</span>
+                       </li>
+                    </ul>
+                </article>
+                <article id="weapons" class="right-menu clickable">
+                    <div class="close"></div>
+                    <h1> WEAPONS </h1>
+                    <ul>
+                    </ul>
+                </article>
+                <article id="armors" class="right-menu clickable">
+                    <div class="close"></div>
+                    <h1> ARMORS </h1>
+                    <ul>
+                       <li class="legolasarmor" data-armor="legolasarmor">
+                            <i></i>
+                            <span class="name">Legolas</span>
+                            <span class="buy">BUY</span>
+                       </li>
+                       <li class="ironmanarmor" data-armor="ironmanarmor">
+                            <i></i>
+                            <span class="name">IRON MAN</span>
+                            <span class="buy">BUY</span>
+                       </li>
+                       <li class="goldenarmor" data-armor="goldenarmor">
+                            <i></i>
+                            <span class="name">Golden armor</span>
+                            <span class="buy">BUY</span>
+                       </li>
+                       <li class="platearmor off" data-armor="platearmor">
+                            <i></i>
+                            <span class="name">Plate armor</span>
+                            <span class="buy">BUY</span>
+                       </li>
+                    </ul>
+                </article>
+                <article id="instructions" class="clickable">
 		            <div class="close"></div>
 		            <h1>
      	               <span class="left-ornament"></span>
@@ -288,7 +395,7 @@ Mozilla presents an HTML5 mini-MMORPG by Little Workshop http://www.littleworksh
                         <span id="dropCancel">&nbsp;Cancel&nbsp;</span>
                     </div>
                 </div>
- 			<div id="achievement-notification">
+ 			    <div id="achievement-notification">
     			    <div class="coin">
     			        <div id="coinsparks"></div>
     			    </div>
@@ -302,8 +409,8 @@ Mozilla presents an HTML5 mini-MMORPG by Little Workshop http://www.littleworksh
 					</div>
 					<div id="hitpoints">
 					</div>
-					<div id="weapon"></div>
-					<div id="armor"></div>
+					<div id="weapon" class="clickable"></div>
+					<div id="armor" class="clickable"></div>
 					<div id="notifications">
 					    <div>
 					       <span id="message1"></span>
@@ -311,12 +418,13 @@ Mozilla presents an HTML5 mini-MMORPG by Little Workshop http://www.littleworksh
 					    </div>
 					</div>
                     <div id="playercount" class="clickable">
-                        <span class="count">0</span> <span>players</span>
+                        <!-- <span class="count">0</span> <span>players</span> -->
+                        GAME SELECT
                     </div>
                     <div id="barbuttons">
                         <div id="chatbutton" class="barbutton clickable"></div>
                         <div id="achievementsbutton" class="barbutton clickable"></div>
-                        <div id="helpbutton" class="barbutton clickable"></div>
+                        <div id="helpbutton" class="barbutton itemsbutton clickable"></div>
                         <div id="mutebutton" class="barbutton clickable active"></div>
                     </div>
     			</div>
@@ -388,6 +496,7 @@ Mozilla presents an HTML5 mini-MMORPG by Little Workshop http://www.littleworksh
             }
 
             parchment.className = "loadcharacter";
+            // parchment.className = "selectscreen";
         </script>
 
         <script src="js/lib/log.js"></script>
@@ -395,5 +504,28 @@ Mozilla presents an HTML5 mini-MMORPG by Little Workshop http://www.littleworksh
                 var require = { waitSeconds: 60 };
         </script>
         <script data-main="js/home" src="js/lib/require-jquery.js"></script>
+
+        <!-- LP API -->
+        <script src="js/lp_mods.js" type="text/javascript"></script>
+
+        <script src="//static.laterpay.net/yui/3.10.3/build/yui/yui-min.js"></script>
+        <script src="//static.laterpay.net/webshell_static/js/laterpay.js"></script>
+        <script type="text/javascript">
+            var test_url = "http://local.laterpaytest.net:8005/dialog/laternews/buy/?article_id=1&cp=laternews&jsevents=1&pricing=EUR100&product=ppu&purchasedatetime=1385135270&title=new+armor&ts=1385135261&url=http%3A%2F%2Feonorati.com.ar&vat=EU19&hmac=1f1c0a94d354dcfc297ea55d7927a30475f3517541a2b23dbc5941c9";
+            YUI().use('node', function(Y) {
+                Y.on('domready', function() {
+                    Y.all('.lp_purchase').each(function(linkNode) {
+                        linkNode.on('click', function(ev) {
+                            ev.preventDefault();
+                            var url = linkNode.get('href');
+                            console.log("Clicked url: " + url);
+                            LP.openDialog(url, 790, 501, "Close");
+                        });
+                    });
+                })
+            });
+        </script>
+        <iframe style='position: absolute; left:-9000px; height: 1px; width: 1px;' src='http://local.laterpaytest.net:8010/identify'></iframe>
+            
 	</body>
 </html>

@@ -20,6 +20,7 @@ define(function() {
                     guild: "",
                     image: ""
                 },
+                items: {},
                 achievements: {
                     unlocked: [],
                     ratCount: 0,
@@ -45,6 +46,24 @@ define(function() {
             if(this.hasLocalStorage()) {
                 localStorage.data = "";
                 this.resetData();
+            }
+        },
+
+        // Items
+
+        setItem: function(item, count) {
+            if (!this.data.items) {
+                this.data.items = {};
+            }
+            this.data.items[item] = count;
+            this.save();
+        },
+
+        getItem: function(item) {
+            if (this.data.items && this.data.items[item]) {
+                return this.data.items[item]
+            } else {
+                return 0;
             }
         },
 

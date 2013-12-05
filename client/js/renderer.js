@@ -389,6 +389,8 @@ function(Camera, Item, Character, Player, Timer) {
                                                shadow.width * os * ds, shadow.height * os * ds);
                     }
 
+                    
+
                     this.context.drawImage(sprite.image, x, y, w, h, ox, oy, dw, dh);
 
                     if(entity instanceof Item && entity.kind !== Types.Entities.CAKE) {
@@ -405,6 +407,9 @@ function(Camera, Item, Character, Player, Timer) {
                                                sparks.offsetY * s,
                                                sw * ds, sh * ds);
                     }
+
+                    
+
                 }
 
                 if(entity instanceof Character && !entity.isDead && entity.hasWeapon()) {
@@ -422,6 +427,25 @@ function(Camera, Item, Character, Player, Timer) {
                                                weapon.offsetX * s,
                                                weapon.offsetY * s,
                                                ww * ds, wh * ds);
+                    }
+
+                    if (entity.healeffect){
+                        var heal = this.game.sprites["healeffect"];
+                        if(heal){
+                            var healAnimData = heal.animationData[anim.name];
+                            if(healAnimData){
+                                var index = this.game.healAnimation.currentFrame.index < healAnimData.length ? this.game.healAnimation.currentFrame.index : this.game.healAnimation.currentFrame.index % healAnimData.length,
+                                    bx = heal.width * index * os,
+                                    by = heal.height * healAnimData.row * os,
+                                    bw = heal.width * os,
+                                    bh = heal.height * os;
+
+                                this.context.drawImage(heal.image, bx, by, bw, bh,
+                                                       heal.offsetX * s,
+                                                       heal.offsetY * s,
+                                                       bw * ds, bh * ds);
+                            }
+                        }
                     }
                 }
 

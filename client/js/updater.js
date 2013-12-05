@@ -255,6 +255,11 @@ define(['character', 'timer'], function(Character, Timer) {
             if(target) {
                 target.update(t);
             }
+
+            var heal = this.game.healAnimation;
+            if (heal) {
+                heal.update(t);
+            }
         },
 
         updateAnimatedTiles: function() {
