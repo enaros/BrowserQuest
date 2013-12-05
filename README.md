@@ -1,4 +1,4 @@
-[img}https://www.codeship.io/projects/cc4e5980-3d8b-0131-5922-126a69f0ce30/status{/img}
+![Codeship Status](https://www.codeship.io/projects/cc4e5980-3d8b-0131-5922-126a69f0ce30/status)
 
 BrowserQuest
 ============
